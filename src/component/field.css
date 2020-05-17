@@ -1,0 +1,17 @@
+.App{
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+}
+.App h1{
+    color: brown;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   }
+
+.App input {
+  padding:6px;
+} 
+.App label{
+  font-size: large;
+}
