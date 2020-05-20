@@ -26,7 +26,7 @@ class Survey extends React.Component{
   constructor() {
     super()
     this.state = { 
-    title: "",
+    title: "Title",
 
     
       question:"",
@@ -40,6 +40,7 @@ class Survey extends React.Component{
     option4:"",
     
     correct:"",
+    cate:"Social Distance",
     items:[],
     id:''
   
@@ -49,6 +50,7 @@ class Survey extends React.Component{
   this.handleChange = this.handleChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this); 
   this.handleMenuClick=this.handleMenuClick.bind(this);
+  this.handledivClick=this.handledivClick.bind(this);
 
 } 
 handleChange(e) {
@@ -59,7 +61,7 @@ handleChange(e) {
   handleSubmit(e) {
     e.preventDefault();
     // const itemsRef = firebase.database().ref('Question');
-    const itemsRef = firebase.database().ref(`/Title/${this.state.title}`);
+    const itemsRef = firebase.database().ref(`/Title/${this.state.title}/${this.state.cate}`);
   const item = {
     question: this.state.question,
     option1: this.state.option1,
@@ -111,8 +113,11 @@ componentDidMount() {
   this.setState({title:e.target.value});
 
 };
-
-
+handledivClick(e)
+{
+  console.log(e.target.value);
+  this.setState({cate:e.target.value});
+}
 render(){
   
    
@@ -127,16 +132,37 @@ render(){
      <div >
      
      <select 
-        defaultValuevalue="Title"
+        defaultValuevalue={this.state.title}
         onChange={this.handleMenuClick} 
       >
+         <option value="Title">Title</option>
          {this.state.items.map((item) => {
             return (
-       <option value={item.id}>{item.title}</option>
+            
+             
+             <option value={item.id}>{item.title}</option>
     
         )
       })}
       </select>
+      <div>
+      <h1>Selected value is {this.state.title}</h1>
+    </div>
+      <select 
+        defaultValuevalue={this.state.cate}
+        onChange={this.handledivClick} 
+      >
+  <option value="SocialDistance">Social Distance</option>
+  <option value="WashingHand">Washing Hand</option>
+  <option value="TissueHandling">Tissue Handling</option>
+  <option value="StayHydrated">Stay Hydrated</option>
+  <option value="SneezeorCough">Sneeze or Cough</option>
+</select>
+    <div>
+      <h1>Selected value is {this.state.cate}</h1>
+    </div>
+      
+    
     
           </div>
 

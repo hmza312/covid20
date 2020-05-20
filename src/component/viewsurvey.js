@@ -31,6 +31,7 @@ export default class viewSurvey extends React.Component{
       option4:"",
       
       correct:"",
+      cate:"Social Distance",
       textDisplay: false,
 items:[],
 items1:[]
@@ -40,41 +41,42 @@ items1:[]
   this.handleChange = this.handleChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this); 
   this.handleMenuClick=this.handleMenuClick.bind(this);
+  this.handledivClick=this.handledivClick.bind(this);
 } 
 handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
-  handleSubmit(e,itemId) {
+  handleSubmit(e,itemId,cate) {
     e.preventDefault();
- 
+ console.log(itemId,cate)
     if(this.state.question!=''){
    
-         firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+         firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
             question:this.state.question
         })}
         if(this.state.option1!=''){
-        firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+        firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
            
                option1:this.state.option1
            })}
            if(this.state.option2!=''){
-           firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+           firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
          
                option2:this.state.option2
            })}
            if(this.state.option3!=''){
-           firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+           firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
           
                option3:this.state.option3
            })}
            if(this.state.option4!=''){
-            firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+            firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
                option4:this.state.option4
            })}
            if(this.state.correct!=''){
-            firebase.database().ref(`/Title/${this.state.title}/${itemId}`).update({
+            firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`).update({
                correct:this.state.correct
            })
  
@@ -86,7 +88,13 @@ handleChange(e) {
 handleMenuClick(e) {
   console.log(e.target.value);
   this.setState({title:e.target.value});
-  const itemsRef = firebase.database().ref(`/Title/${e.target.value}`);
+ 
+};
+handledivClick(e)
+{
+  console.log(e.target.value);
+  this.setState({cate:e.target.value});
+  const itemsRef = firebase.database().ref(`/Title/${this.state.title}/${e.target.value}`);
   itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
       console.log(items)
@@ -109,7 +117,8 @@ handleMenuClick(e) {
     });
    
 
-};
+}
+
 componentDidMount() {
   const itemsd = firebase.database().ref('Title');
   itemsd.on('value', (snapshot) => {
@@ -131,14 +140,14 @@ componentDidMount() {
   }
 
   
-  removeItem(itemId) {
-    const itemsRef = firebase.database().ref(`/Title/${this.state.title}/${itemId}`);
+  removeItem(itemId,cate) {
+    const itemsRef = firebase.database().ref(`/Title/${this.state.title}/${cate}/${itemId}`);
     itemsRef.remove();
   }
   
   
-  displayQuestion (itemId) {
-      console.log(itemId)
+  displayQuestion (itemId,cate) {
+      console.log(itemId,cate)
     const add = (
         
         <form >      
@@ -196,7 +205,7 @@ componentDidMount() {
      
     
        <button   style={{marginLeft:6,marginTop:30, width:'25%',backgroundColor:'lightgreen'}} 
- onClick={(e) => this.handleSubmit(e, itemId)}>Add</button>
+ onClick={(e) => this.handleSubmit(e, itemId,cate)}>Add</button>
    {/* onClick={()=>this.handleSubmit(itemId)} */}
          {/*  */}
        </div>
@@ -226,7 +235,19 @@ componentDidMount() {
         )
       })}
       </select>
-    
+      <select 
+        defaultValuevalue={this.state.cate}
+        onChange={this.handledivClick} 
+      >
+  <option value="SocialDistance">Social Distance</option>
+  <option value="WashingHand">Washing Hand</option>
+  <option value="TissueHandling">Tissue Handling</option>
+  <option value="StayHydrated">Stay Hydrated</option>
+  <option value="SneezeorCough">Sneeze or Cough</option>
+</select>
+    <div>
+      <h1>Selected value is {this.state.cate}</h1>
+    </div>
           </div>
 
    
@@ -270,9 +291,9 @@ return;
 
     </div>
     <div style={{display:'flex',flexDirection:'row'}}>
-  <button onClick={() => this.removeItem(item.id)}>Remove</button>
+  <button onClick={() => this.removeItem(item.id,this.state.cate)}>Remove</button>
 
-  <button onClick={()=>this.displayQuestion(item.id)}>Update</button>
+  <button onClick={()=>this.displayQuestion(item.id,this.state.cate)}>Update</button>
   <div id="name" style={{marginLeft:30,marginTop:-230}}></div>     
   </div>
  

@@ -108,7 +108,7 @@ if (props.login === true) {
             <img src={logo} height='200' width='auto' style={{borderRadius:'5%',}} />
           </ListItem>
           <Divider />
-        {['Dashboard','Admin','AddTitle','ManageTitle', 'AddSurvey', 'ManageSurvey','Logout',].map((text, index) => (
+        {['Dashboard','Admin','AddTitle','ManageTitle', 'AddSurvey','UserManagement', 'ManageSurvey','Logout',].map((text, index) => (
           <Link to={`/${text}`} ><ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />

@@ -10,6 +10,7 @@ import SurveyTitle from "./component/surveytitle.js";
 import Admin from "./component/admin.js";
 import Detail from './component/fulldetails';
 import home from './component/home.js';
+import User from './component/user.js';
 //import ArticleDetail from './containers/ArticleDetailView';
 
 const BaseRouter = () => (
@@ -24,6 +25,7 @@ const BaseRouter = () => (
         <Route exact path='/ManageTitle' component={viewtitle}/>
         <Route exact path='/Logout' component={logout}/>
         <Route exact path='/Dashboard/:title' component={Detail}/>
+        <Route exact path='/UserManagement/' component={User}/>
     </div>
 
 )
